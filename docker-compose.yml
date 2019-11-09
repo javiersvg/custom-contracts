@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  test:
+    image: springcloud/spring-cloud-contract:2.2.0.BUILD-SNAPSHOT
+    ports:
+      - "5005:5005"
+    environment:
+      - PUBLISH_ARTIFACTS=false
+      - APPLICATION_BASE_URL=http://service:8080/
+      - PROJECT_GROUP=com.example
+      - PROJECT_VERSION=0.1-SNAPSHOT
+      - PROJECT_NAME=custom-contracts
+    volumes:
+      - "./src/test/resources/contracts/:/contracts:ro"
+      - "./build:/spring-cloud-contract-output/"
+      - "./settings.gradle:/spring-cloud-contract/settings.gradle"
+      - "./src/test/groovy:/spring-cloud-contract/src/groovy"
+      - "./src/test/resources/META-INF:/spring-cloud-contract/src/resources/META-INF"
+    command: ./gradlew clean generateContractTests --stacktrace

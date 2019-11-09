@@ -1,0 +1,7 @@
+toggles:
+  - "toggleName": false
+request:
+  url: /health
+  method: GET
+response:
+  status: 200

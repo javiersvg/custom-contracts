@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        if (!"${verifierVersion}".contains("RELEASE")) {
+            maven { url "https://repo.spring.io/snapshot" }
+            maven { url "https://repo.spring.io/milestone" }
+            maven { url "https://repo.spring.io/release" }
+        }
+    }
+
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    if (!"${verifierVersion}".contains("RELEASE")) {
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/release" }
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-contract-dependencies:${verifierVersion}"
+    }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile("org.springframework.cloud:spring-cloud-starter-contract-verifier")
+}
