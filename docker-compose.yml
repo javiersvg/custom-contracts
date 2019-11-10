@@ -12,8 +12,9 @@ services:
       - PROJECT_NAME=custom-contracts
     volumes:
       - "./src/test/resources/contracts/:/contracts:ro"
-      - "./build:/spring-cloud-contract-output/"
+      - "./build/spring-cloud-contract-output/:/spring-cloud-contract-output/"
       - "./settings.gradle:/spring-cloud-contract/settings.gradle"
-      - "./src/test/groovy:/spring-cloud-contract/src/groovy"
-      - "./src/test/resources/META-INF:/spring-cloud-contract/src/resources/META-INF"
-    command: ./gradlew clean generateContractTests --stacktrace
+      - "./src/main/groovy:/spring-cloud-contract/src/main/groovy"
+      - "./src/main/resources/META-INF:/spring-cloud-contract/src/main/resources/META-INF"
+      - "./build.gradle:/spring-cloud-contract/build.gradle"
+    command: ./gradlew clean compileGroovy processResources generateContractTests --stacktrace -Dorg.gradle.debug=true --no-daemon
